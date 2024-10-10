@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -29,5 +30,18 @@ public class Canteiro {
     private Responsavel responsavel;
 
     @ManyToMany
+    @JoinTable(
+        name = "Plantada", 
+        joinColumns = @JoinColumn(name = "canteiro_id"), 
+        inverseJoinColumns = @JoinColumn(name = "planta_id")
+    )
     private Set<Planta> plantas;
+
+    @ManyToMany
+    @JoinTable(
+        name = "Aplicado", 
+        joinColumns = @JoinColumn(name = "canteiro_id"), 
+        inverseJoinColumns = @JoinColumn(name = "ensumo_id")
+    )
+    private Set<Ensumo> ensumos;
 }
