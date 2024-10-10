@@ -1,33 +1,30 @@
 package com.tiago.gerenciador_de_plantacao.entity;
 
-import java.util.Set;
+import java.sql.Date;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter @Data
 @Entity
-@Table
-public class Canteiro {
+public class Plantado {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column
-    private Double area;
+    private Date data_plantio;
 
-    @ManyToOne @JoinColumn(name = "fk_Responsavel_Id")
-    private Responsavel responsavel;
+    private Date data_colheita;
 
-    @ManyToMany
-    private Set<Planta> plantas;
+    @ManyToOne @JoinColumn(name = "fk_Canteiro_Id")
+    private Canteiro canteiro;
+    
+    @ManyToOne @JoinColumn(name = "fk_Planta_Id")
+    private Planta planta;
 }
