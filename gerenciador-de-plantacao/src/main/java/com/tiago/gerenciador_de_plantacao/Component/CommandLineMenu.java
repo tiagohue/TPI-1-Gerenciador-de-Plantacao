@@ -92,8 +92,6 @@ public class CommandLineMenu implements CommandLineRunner{
                             break;
                     
                         case 3:
-                            canteiroRepository.save(new Canteiro());
-
                             Integer idu; Double areau; Integer responsavel_idu;
                             System.out.println("Digite o id: ");
                             idu = s.nextInt();
@@ -112,7 +110,12 @@ public class CommandLineMenu implements CommandLineRunner{
                             break;
                     
                         case 4:
-                            
+                            canteiroRepository.save(new Canteiro());
+
+                            Integer idd;
+                            System.out.println("Digite o id: ");
+                            idd = s.nextInt(); s.nextLine();
+                            canteiroRepository.deleteById(idd);
                             break;
                     }
 
