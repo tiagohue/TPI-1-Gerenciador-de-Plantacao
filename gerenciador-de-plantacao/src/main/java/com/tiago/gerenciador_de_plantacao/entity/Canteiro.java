@@ -12,11 +12,12 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter @Data
+@Getter @Setter
+@NoArgsConstructor
 @Entity
 @Table
 public class Canteiro {
@@ -44,4 +45,11 @@ public class Canteiro {
         inverseJoinColumns = @JoinColumn(name = "ensumo_id")
     )
     private Set<Ensumo> ensumos;
+
+    @Override
+    public String toString() {
+        return "Id: " + id +
+        ", Area: " + area +
+        ", Responsavel: " + responsavel;
+    }
 }
