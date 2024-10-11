@@ -5,6 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.tiago.gerenciador_de_plantacao.entity.Canteiro;
+import com.tiago.gerenciador_de_plantacao.entity.Ensumo;
 import com.tiago.gerenciador_de_plantacao.entity.Responsavel;
 import com.tiago.gerenciador_de_plantacao.repository.CanteiroRepository;
 import com.tiago.gerenciador_de_plantacao.repository.EnsumoRepository;
@@ -30,7 +31,7 @@ public class CommandLineMenu implements CommandLineRunner{
     @Override
     public void run(String... args) throws Exception {
         Scanner s = new Scanner(System.in);
-        Integer r;
+        Integer r = 0;
 
         do {
             System.out.println("Menu de interação por linha de comando:");
@@ -42,7 +43,6 @@ public class CommandLineMenu implements CommandLineRunner{
                     "5 -> Nenhuma. (ENCERRAR PROGRAMA)");
 
             r = s.nextInt();
-            s.nextLine();
 
             while (r < 1 || r > 5) {
                 System.out.println("Resposta inválida, por favor digite novamente: ");
@@ -61,12 +61,10 @@ public class CommandLineMenu implements CommandLineRunner{
                     "5 -> Nenhuma. (VOLTAR AO MENU ANTERIOR)");
 
                     Integer r2 = s.nextInt();
-                    s.nextLine();
 
                     while (r2 < 1 || r2 > 5) {
                         System.out.println("Resposta inválida, por favor digite novamente: ");
                         r = s.nextInt();
-                        s.nextLine();
                     }
 
                     switch (r2) {
@@ -75,7 +73,7 @@ public class CommandLineMenu implements CommandLineRunner{
                             System.out.println("Digite a area: ");
                             area = s.nextDouble();
                             System.out.println("Digite o responsavel_id: ");
-                            responsavel_id = s.nextInt(); s.nextLine();
+                            responsavel_id = s.nextInt();
                             
                             Canteiro c = new Canteiro();
                             c.setArea(area);
@@ -98,7 +96,7 @@ public class CommandLineMenu implements CommandLineRunner{
                             System.out.println("Digite a area: ");
                             areau = s.nextDouble();
                             System.out.println("Digite o responsavel_id: ");
-                            responsavel_idu = s.nextInt(); s.nextLine();
+                            responsavel_idu = s.nextInt();
                             
                             Canteiro c_up = new Canteiro();
                             c_up.setId(idu);
@@ -110,11 +108,9 @@ public class CommandLineMenu implements CommandLineRunner{
                             break;
                     
                         case 4:
-                            canteiroRepository.save(new Canteiro());
-
                             Integer idd;
                             System.out.println("Digite o id: ");
-                            idd = s.nextInt(); s.nextLine();
+                            idd = s.nextInt();
                             canteiroRepository.deleteById(idd);
                             break;
                     }
@@ -129,6 +125,56 @@ public class CommandLineMenu implements CommandLineRunner{
                     "3 -> Atualizar.\n" +
                     "4 -> Deletar.\n" +
                     "5 -> Nenhuma. (VOLTAR AO MENU ANTERIOR)");
+
+                    Integer r3 = s.nextInt();
+                    s.nextLine();
+
+                    while (r3 < 1 || r3 > 5) {
+                        System.out.println("Resposta inválida, por favor digite novamente: ");
+                        r = s.nextInt();
+                    }
+
+                    switch (r3) {
+                        case 1:
+                            String descricao;
+                            System.out.println("Digite a descricao: ");
+                            descricao = s.nextLine();
+                            
+                            Ensumo e = new Ensumo();
+                            e.setDescricao(descricao);
+
+                            ensumoRepository.save(e);
+                            break;
+                    
+                        case 2:
+                            System.out.println("Digite o id: ");
+                            Integer id = s.nextInt();
+                            System.out.println(ensumoRepository.findById(id).toString());
+                            break;
+                    
+                        case 3:
+                            Integer idu; String descricaou;
+                            System.out.println("Digite o id: ");
+                            idu = s.nextInt(); s.nextLine();
+                            System.out.println("Digite a descricao: ");
+                            descricaou = s.nextLine();
+                            
+                            
+                            Ensumo e_up = new Ensumo();
+                            e_up.setId(idu);
+                            e_up.setDescricao(descricaou);
+
+                            ensumoRepository.save(e_up);
+                            break;
+                    
+                        case 4:
+                            Integer idd;
+                            System.out.println("Digite o id: ");
+                            idd = s.nextInt(); s.nextLine();
+                            ensumoRepository.deleteById(idd);
+                            break;
+                    }
+
                     break;
             
                 case 3:
