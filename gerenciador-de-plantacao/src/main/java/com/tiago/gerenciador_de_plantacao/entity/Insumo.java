@@ -3,15 +3,13 @@ package com.tiago.gerenciador_de_plantacao.entity;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter @Setter
 @NoArgsConstructor
 @Entity
 public class Insumo {
@@ -21,10 +19,34 @@ public class Insumo {
     private String descricao;
 
     @ManyToMany(mappedBy = "insumos")
-    private Set<Canteiro> canteiros;
+    Set<Canteiro> canteiros;
 
     public Insumo(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Set<Canteiro> getCanteiros() {
+        return canteiros;
+    }
+
+    public void setCanteiros(Set<Canteiro> canteiros) {
+        this.canteiros = canteiros;
     }
 
     @Override

@@ -62,8 +62,8 @@ public class CommandLineMenu implements CommandLineRunner{
                     "2 -> Insumo.\n" +
                     "3 -> Planta.\n" +
                     "4 -> Responsavel.\n" +
-                    "5 -> Plantado. (Canteiro_Planta)\n" +
-                    "6 -> Aplicado. (Canteiro_Insumo)\n" +
+                    "5 -> Plantado. (Planta_Canteiro)\n" +
+                    "6 -> Aplicado. (Insumo_Canteiro)\n" +
                     "7 -> Nenhuma. (ENCERRAR PROGRAMA)");
 
             r = s.nextInt();
@@ -363,13 +363,35 @@ public class CommandLineMenu implements CommandLineRunner{
                             Planta p = plantaRepository.findById(planta_id).get();
 
                             if (c != null && p != null) {
-                                System.out.println("Canteiro e planta existem!");
+                                c.getPlantas().add(p);
+                                canteiroRepository.save(c);
+
+                                System.out.println("Relação entre canteiro e planta foi criada.");
+                            } else {
+                                System.out.println("Canteiro e/ou planta não existem!");
                             }
 
                             break;
                     
                         case 2:
-                            System.out.println("TO-DO ;)");
+                            Integer canteiro_idd, planta_idd;
+                            System.out.println("Digite o id do canteiro: ");
+                            canteiro_idd = s.nextInt();
+                            System.out.println("Digite o id da planta: ");
+                            planta_idd = s.nextInt();
+
+                            Canteiro cd = canteiroRepository.findById(canteiro_idd).get();
+                            Planta pd = plantaRepository.findById(planta_idd).get();
+
+                            if (cd != null && pd != null) {
+                                cd.getPlantas().remove(pd);
+                                pd.getCanteiros().remove(cd);
+                                canteiroRepository.save(cd);
+
+                                System.out.println("Relação entre canteiro e planta deletada/inexistente.");
+                            } else {
+                                System.out.println("Canteiro e/ou planta não existem!");
+                            }
 
                             break;
                     }
