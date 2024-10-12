@@ -25,6 +25,10 @@ public class Planta {
     @ManyToMany(mappedBy = "plantas")
     private Set<Canteiro> canteiros;
 
+    public Planta(String nome, Integer periodo_colheita) {
+        this.nome = nome; this.periodo_colheita = periodo_colheita;
+    }
+
     @Override
     public String toString() {
         return "Id: " + id +

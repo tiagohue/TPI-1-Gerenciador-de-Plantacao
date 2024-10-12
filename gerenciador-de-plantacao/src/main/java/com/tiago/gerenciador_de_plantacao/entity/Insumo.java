@@ -23,6 +23,10 @@ public class Insumo {
     @ManyToMany(mappedBy = "insumos")
     private Set<Canteiro> canteiros;
 
+    public Insumo(String descricao) {
+        this.descricao = descricao;
+    }
+
     @Override
     public String toString() {
         return "Id: " + id +

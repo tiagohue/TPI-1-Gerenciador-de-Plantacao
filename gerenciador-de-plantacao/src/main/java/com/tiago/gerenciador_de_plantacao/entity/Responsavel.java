@@ -17,6 +17,10 @@ public class Responsavel {
 
     private String nome;
 
+    public Responsavel(String nome) {
+        this.nome = nome;
+    }
+
     @Override
     public String toString() {
         return "Id: " + id +

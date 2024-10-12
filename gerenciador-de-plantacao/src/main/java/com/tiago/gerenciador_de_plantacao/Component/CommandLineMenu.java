@@ -31,21 +31,44 @@ public class CommandLineMenu implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
+        //Adiciona 3 de cada entidade pelo código:
+            //Responsavel:
+            Responsavel resTiago = responsavelRepository.save(new Responsavel("Tiago"));
+            Responsavel resHelena = responsavelRepository.save(new Responsavel("Dona Helena"));
+            Responsavel resDomigos = responsavelRepository.save(new Responsavel("Seu Domingos"));
+
+            //Canteiro:
+            canteiroRepository.save(new Canteiro(5.0 , resTiago));
+            canteiroRepository.save(new Canteiro(12.0 , resDomigos));
+            canteiroRepository.save(new Canteiro(8.0 , resHelena));
+
+            //Insumo:
+            insumoRepository.save(new Insumo("Estrume -> cocô de vaca."));
+            insumoRepository.save(new Insumo("Casca de ovo -> em pó, facilita a absorcao pelas plantas."));
+            insumoRepository.save(new Insumo("Cinzas -> ricas em minerais e nutrientes."));
+
+            //Planta:
+            plantaRepository.save(new Planta("Alface", 75));
+            plantaRepository.save(new Planta("Abóbora", 105));
+            plantaRepository.save(new Planta("Batata Doce", 105));
+
         Scanner s = new Scanner(System.in);
         Integer r = 0;
 
         do {
             System.out.println("Menu de interação por linha de comando:");
-            System.out.println("Com qual entidade voce quer trabalhar?\n" +
+            System.out.println("Com qual entidade ou relacionamento voce quer trabalhar?\n" +
                     "1 -> Canteiro.\n" +
                     "2 -> Insumo.\n" +
                     "3 -> Planta.\n" +
                     "4 -> Responsavel.\n" +
-                    "5 -> Nenhuma. (ENCERRAR PROGRAMA)");
+                    "5 -> Plantado. (Canteiro_Planta)\n" +
+                    "6 -> Aplicado. (Canteiro_Insumo)\n" +
+                    "7 -> Nenhuma. (ENCERRAR PROGRAMA)");
 
             r = s.nextInt();
 
-            while (r < 1 || r > 5) {
+            while (r < 1 || r > 7) {
                 System.out.println("Resposta inválida, por favor digite novamente: ");
                 r = s.nextInt();
             }
@@ -283,9 +306,9 @@ public class CommandLineMenu implements CommandLineRunner{
                         case 2:
                             System.out.println("Digite o id: (digite \"-1\" para recuperar todos)");
                             Integer id = s.nextInt();
-                            if (id > 0) System.out.println(plantaRepository.findById(id).toString());
+                            if (id > 0) System.out.println(responsavelRepository.findById(id).toString());
 
-                            else plantaRepository.findAll().forEach(ca -> System.out.println(ca.toString()));
+                            else responsavelRepository.findAll().forEach(ca -> System.out.println(ca.toString()));
 
                             break;
                     
@@ -314,12 +337,56 @@ public class CommandLineMenu implements CommandLineRunner{
 
                     break;
             
-                case 5: //ENCERRAR PROGRAMA:
+                case 5: //PLANTADO:
+                    System.out.println("PLANTADO:\n" +
+                    "Selecione a operacao: \n" +
+                    "1 -> Criar.\n" +
+                    "2 -> Deletar.\n" +
+                    "3 -> Nenhuma. (VOLTAR AO MENU ANTERIOR)");
+
+                    Integer r6 = s.nextInt();
+                    s.nextLine();
+
+                    while (r6 < 1 || r6 >3) {
+                        System.out.println("Resposta inválida, por favor digite novamente: ");
+                    }
+
+                    switch (r6) {
+                        case 1:
+                            Integer canteiro_id, planta_id;
+                            System.out.println("Digite o id do canteiro: ");
+                            canteiro_id = s.nextInt();
+                            System.out.println("Digite o id da planta: ");
+                            planta_id = s.nextInt();
+
+                            Canteiro c = canteiroRepository.findById(canteiro_id).get();
+                            Planta p = plantaRepository.findById(planta_id).get();
+
+                            if (c != null && p != null) {
+                                System.out.println("Canteiro e planta existem!");
+                            }
+
+                            break;
+                    
+                        case 2:
+                            System.out.println("TO-DO ;)");
+
+                            break;
+                    }
+
+                    break;
+                    
+                case 6: //APLICADO:
+                    System.out.println("APLICADO:");
+                    
+                    break;
+
+                case 7: //ENCERRAR PROGRAMA:
                     System.out.println("PROGRAMA ENCERRADO...");
                     
                     break;
             }
-        } while (r != 5);
+        } while (r != 7);
 
         s.close();
     }

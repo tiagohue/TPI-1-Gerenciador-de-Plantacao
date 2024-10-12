@@ -46,6 +46,10 @@ public class Canteiro {
     )
     private Set<Insumo> insumos;
 
+    public Canteiro(Double area, Responsavel responsavel) {
+        this.area = area; this.responsavel = responsavel;
+    }
+
     @Override
     public String toString() {
         return "Id: " + id +
