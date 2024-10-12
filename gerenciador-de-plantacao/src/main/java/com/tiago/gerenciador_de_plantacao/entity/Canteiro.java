@@ -42,9 +42,9 @@ public class Canteiro {
     @JoinTable(
         name = "Aplicado", 
         joinColumns = @JoinColumn(name = "canteiro_id"), 
-        inverseJoinColumns = @JoinColumn(name = "ensumo_id")
+        inverseJoinColumns = @JoinColumn(name = "insumo_id")
     )
-    private Set<Ensumo> ensumos;
+    private Set<Insumo> insumos;
 
     @Override
     public String toString() {

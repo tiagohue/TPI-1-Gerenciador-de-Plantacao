@@ -5,10 +5,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.tiago.gerenciador_de_plantacao.entity.Canteiro;
-import com.tiago.gerenciador_de_plantacao.entity.Ensumo;
+import com.tiago.gerenciador_de_plantacao.entity.Insumo;
+import com.tiago.gerenciador_de_plantacao.entity.Planta;
 import com.tiago.gerenciador_de_plantacao.entity.Responsavel;
 import com.tiago.gerenciador_de_plantacao.repository.CanteiroRepository;
-import com.tiago.gerenciador_de_plantacao.repository.EnsumoRepository;
+import com.tiago.gerenciador_de_plantacao.repository.InsumoRepository;
 import com.tiago.gerenciador_de_plantacao.repository.PlantaRepository;
 import com.tiago.gerenciador_de_plantacao.repository.ResponsavelRepository;
 
@@ -20,7 +21,7 @@ public class CommandLineMenu implements CommandLineRunner{
     CanteiroRepository canteiroRepository;
 
     @Autowired
-    EnsumoRepository ensumoRepository;
+    InsumoRepository insumoRepository;
 
     @Autowired
     PlantaRepository plantaRepository;
@@ -37,7 +38,7 @@ public class CommandLineMenu implements CommandLineRunner{
             System.out.println("Menu de interação por linha de comando:");
             System.out.println("Com qual entidade voce quer trabalhar?\n" +
                     "1 -> Canteiro.\n" +
-                    "2 -> Ensumo.\n" +
+                    "2 -> Insumo.\n" +
                     "3 -> Planta.\n" +
                     "4 -> Responsavel.\n" +
                     "5 -> Nenhuma. (ENCERRAR PROGRAMA)");
@@ -47,7 +48,6 @@ public class CommandLineMenu implements CommandLineRunner{
             while (r < 1 || r > 5) {
                 System.out.println("Resposta inválida, por favor digite novamente: ");
                 r = s.nextInt();
-                s.nextLine();
             }
 
             switch (r) {
@@ -118,7 +118,7 @@ public class CommandLineMenu implements CommandLineRunner{
                     break;
 
                 case 2:
-                    System.out.println("Ensumo: \n" +
+                    System.out.println("Insumo: \n" +
                     "Selecione a operacao: \n" +
                     "1 -> Criar.\n" +
                     "2 -> Recuperar.\n" +
@@ -131,7 +131,6 @@ public class CommandLineMenu implements CommandLineRunner{
 
                     while (r3 < 1 || r3 > 5) {
                         System.out.println("Resposta inválida, por favor digite novamente: ");
-                        r = s.nextInt();
                     }
 
                     switch (r3) {
@@ -140,16 +139,16 @@ public class CommandLineMenu implements CommandLineRunner{
                             System.out.println("Digite a descricao: ");
                             descricao = s.nextLine();
                             
-                            Ensumo e = new Ensumo();
+                            Insumo e = new Insumo();
                             e.setDescricao(descricao);
 
-                            ensumoRepository.save(e);
+                            insumoRepository.save(e);
                             break;
                     
                         case 2:
                             System.out.println("Digite o id: ");
                             Integer id = s.nextInt();
-                            System.out.println(ensumoRepository.findById(id).toString());
+                            System.out.println(insumoRepository.findById(id).toString());
                             break;
                     
                         case 3:
@@ -160,18 +159,18 @@ public class CommandLineMenu implements CommandLineRunner{
                             descricaou = s.nextLine();
                             
                             
-                            Ensumo e_up = new Ensumo();
+                            Insumo e_up = new Insumo();
                             e_up.setId(idu);
                             e_up.setDescricao(descricaou);
 
-                            ensumoRepository.save(e_up);
+                            insumoRepository.save(e_up);
                             break;
                     
                         case 4:
                             Integer idd;
                             System.out.println("Digite o id: ");
                             idd = s.nextInt(); s.nextLine();
-                            ensumoRepository.deleteById(idd);
+                            insumoRepository.deleteById(idd);
                             break;
                     }
 
@@ -185,6 +184,63 @@ public class CommandLineMenu implements CommandLineRunner{
                     "3 -> Atualizar.\n" +
                     "4 -> Deletar.\n" +
                     "5 -> Nenhuma. (VOLTAR AO MENU ANTERIOR)");
+
+                    Integer r4 = s.nextInt();
+                    s.nextLine();
+
+                    while (r4 < 1 || r4 > 5) {
+                        System.out.println("Resposta inválida, por favor digite novamente: ");
+                    }
+
+                    switch (r4) {
+                        case 1:
+                            String nome;
+                            System.out.println("Digite o nome: ");
+                            nome = s.nextLine();
+                            
+                            Integer periodo_colheita;
+                            System.out.println("Digite o período, em dias, até a colheita: ");
+                            periodo_colheita = s.nextInt();
+
+                            Planta p = new Planta();
+                            p.setNome(nome);
+                            p.setPeriodo_colheita(periodo_colheita);
+
+                            plantaRepository.save(p);
+                            break;
+                    
+                        case 2:
+                            System.out.println("Digite o id: ");
+                            Integer id = s.nextInt();
+                            System.out.println(plantaRepository.findById(id).toString());
+                            break;
+                    
+                        case 3:
+                            Integer idu; String nomeu; Integer periodo_colheitau;
+                            System.out.println("Digite o id: ");
+                            idu = s.nextInt(); s.nextLine();
+                            System.out.println("Digite o nome: ");
+                            nomeu = s.nextLine();
+                            System.out.println("Digite o período, em dias, até a colheita: ");
+                            periodo_colheitau = s.nextInt();
+
+                            Planta p_up = new Planta();
+                            p_up.setId(idu);
+                            p_up.setNome(nomeu);
+                            p_up.setPeriodo_colheita(periodo_colheitau);
+
+                            plantaRepository.save(p_up);
+                            break;
+                    
+                        case 4:
+                            Integer idd;
+                            System.out.println("Digite o id: ");
+                            idd = s.nextInt(); s.nextLine();
+                            plantaRepository.deleteById(idd);
+                            break;
+                    }
+
+
                     break;
             
                 case 4:

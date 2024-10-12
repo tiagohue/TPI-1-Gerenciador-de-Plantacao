@@ -24,4 +24,11 @@ public class Planta {
 
     @ManyToMany(mappedBy = "plantas")
     private Set<Canteiro> canteiros;
+
+    @Override
+    public String toString() {
+        return "Id: " + id +
+        ", Nome: " + nome +
+        ", Periodo_colheita: " + periodo_colheita;
+    }
 }

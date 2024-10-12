@@ -14,13 +14,13 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor
 @Entity
-public class Ensumo {
+public class Insumo {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     private String descricao;
 
-    @ManyToMany(mappedBy = "ensumos")
+    @ManyToMany(mappedBy = "insumos")
     private Set<Canteiro> canteiros;
 
     @Override
