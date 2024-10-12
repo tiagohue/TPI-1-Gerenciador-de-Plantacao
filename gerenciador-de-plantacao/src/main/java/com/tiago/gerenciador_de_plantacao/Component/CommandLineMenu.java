@@ -51,7 +51,7 @@ public class CommandLineMenu implements CommandLineRunner{
             }
 
             switch (r) {
-                case 1:
+                case 1: //CANTEIRO:
                     System.out.println("CANTEIRO: \n" +
                     "Selecione a operacao: \n" +
                     "1 -> Criar.\n" +
@@ -117,8 +117,8 @@ public class CommandLineMenu implements CommandLineRunner{
 
                     break;
 
-                case 2:
-                    System.out.println("Insumo: \n" +
+                case 2: //INSUMO:
+                    System.out.println("INSUMO: \n" +
                     "Selecione a operacao: \n" +
                     "1 -> Criar.\n" +
                     "2 -> Recuperar.\n" +
@@ -176,7 +176,7 @@ public class CommandLineMenu implements CommandLineRunner{
 
                     break;
             
-                case 3:
+                case 3: //PLANTA:
                     System.out.println("PLANTA: \n" +
                     "Selecione a operacao: \n" +
                     "1 -> Criar.\n" +
@@ -243,7 +243,7 @@ public class CommandLineMenu implements CommandLineRunner{
 
                     break;
             
-                case 4:
+                case 4: //RESPONSAVEL:
                     System.out.println("RESPONSAVEL: \n" +
                     "Selecione a operacao: \n" +
                     "1 -> Criar.\n" +
@@ -251,6 +251,55 @@ public class CommandLineMenu implements CommandLineRunner{
                     "3 -> Atualizar.\n" +
                     "4 -> Deletar.\n" +
                     "5 -> Nenhuma. (VOLTAR AO MENU ANTERIOR)");
+
+                    Integer r5 = s.nextInt();
+                    s.nextLine();
+
+                    while (r5 < 1 || r5 > 5) {
+                        System.out.println("Resposta inválida, por favor digite novamente: ");
+                    }
+
+                    switch (r5) {
+                        case 1:
+                            String nome;
+                            System.out.println("Digite o nome: ");
+                            nome = s.nextLine();
+                            
+                            Responsavel res = new Responsavel();
+                            res.setNome(nome);
+
+                            responsavelRepository.save(res);
+                            break;
+                    
+                        case 2:
+                            System.out.println("Digite o id: ");
+                            Integer id = s.nextInt();
+                            System.out.println(responsavelRepository.findById(id).toString());
+                            break;
+                    
+                        case 3:
+                            Integer idu; String nomeu;
+                            System.out.println("Digite o id: ");
+                            idu = s.nextInt(); s.nextLine();
+                            System.out.println("Digite a nome: ");
+                            nomeu = s.nextLine();
+                            
+                            
+                            Responsavel res_up = new Responsavel();
+                            res_up.setId(idu);
+                            res_up.setNome(nomeu);
+
+                            responsavelRepository.save(res_up);
+                            break;
+                    
+                        case 4:
+                            Integer idd;
+                            System.out.println("Digite o id: ");
+                            idd = s.nextInt(); s.nextLine();
+                            responsavelRepository.deleteById(idd);
+                            break;
+                    }
+
                     break;
             
                 case 5:

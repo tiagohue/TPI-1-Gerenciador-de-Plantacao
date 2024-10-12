@@ -16,4 +16,10 @@ public class Responsavel {
     private Integer id;
 
     private String nome;
+
+    @Override
+    public String toString() {
+        return "Id: " + id +
+        ", Nome: " + nome;
+    }
 }
