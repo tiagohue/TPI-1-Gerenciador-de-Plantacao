@@ -84,9 +84,12 @@ public class CommandLineMenu implements CommandLineRunner{
                             break;
                     
                         case 2:
-                            System.out.println("Digite o id: ");
+                            System.out.println("Digite o id: (digite \"-1\" para recuperar todos)");
                             Integer id = s.nextInt();
-                            System.out.println(canteiroRepository.findById(id).toString());
+                            if (id > 0) System.out.println(canteiroRepository.findById(id).toString());
+
+                            else canteiroRepository.findAll().forEach(ca -> System.out.println(ca.toString()));
+
                             break;
                     
                         case 3:
@@ -109,7 +112,7 @@ public class CommandLineMenu implements CommandLineRunner{
                     
                         case 4:
                             Integer idd;
-                            System.out.println("Digite o id: ");
+                            System.out.println("Digite o id:");
                             idd = s.nextInt();
                             canteiroRepository.deleteById(idd);
                             break;
@@ -146,9 +149,12 @@ public class CommandLineMenu implements CommandLineRunner{
                             break;
                     
                         case 2:
-                            System.out.println("Digite o id: ");
+                            System.out.println("Digite o id: (digite \"-1\" para recuperar todos)");
                             Integer id = s.nextInt();
-                            System.out.println(insumoRepository.findById(id).toString());
+                            if (id > 0) System.out.println(insumoRepository.findById(id).toString());
+
+                            else insumoRepository.findAll().forEach(ca -> System.out.println(ca.toString()));
+
                             break;
                     
                         case 3:
@@ -210,9 +216,12 @@ public class CommandLineMenu implements CommandLineRunner{
                             break;
                     
                         case 2:
-                            System.out.println("Digite o id: ");
+                            System.out.println("Digite o id: (digite \"-1\" para recuperar todos)");
                             Integer id = s.nextInt();
-                            System.out.println(plantaRepository.findById(id).toString());
+                            if (id > 0) System.out.println(plantaRepository.findById(id).toString());
+
+                            else plantaRepository.findAll().forEach(ca -> System.out.println(ca.toString()));
+
                             break;
                     
                         case 3:
@@ -272,9 +281,12 @@ public class CommandLineMenu implements CommandLineRunner{
                             break;
                     
                         case 2:
-                            System.out.println("Digite o id: ");
+                            System.out.println("Digite o id: (digite \"-1\" para recuperar todos)");
                             Integer id = s.nextInt();
-                            System.out.println(responsavelRepository.findById(id).toString());
+                            if (id > 0) System.out.println(plantaRepository.findById(id).toString());
+
+                            else plantaRepository.findAll().forEach(ca -> System.out.println(ca.toString()));
+
                             break;
                     
                         case 3:
@@ -302,7 +314,7 @@ public class CommandLineMenu implements CommandLineRunner{
 
                     break;
             
-                case 5:
+                case 5: //ENCERRAR PROGRAMA:
                     System.out.println("PROGRAMA ENCERRADO...");
                     
                     break;
