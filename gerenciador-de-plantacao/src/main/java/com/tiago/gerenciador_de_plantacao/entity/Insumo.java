@@ -18,7 +18,7 @@ public class Insumo {
 
     private String descricao;
 
-    @ManyToMany(mappedBy = "insumos")
+    @ManyToMany(mappedBy = "insumos", fetch = FetchType.EAGER)
     Set<Canteiro> canteiros;
 
     public Insumo(String descricao) {

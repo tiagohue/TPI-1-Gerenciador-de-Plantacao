@@ -2,6 +2,7 @@ package com.tiago.gerenciador_de_plantacao.Component;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.tiago.gerenciador_de_plantacao.entity.Canteiro;
@@ -29,28 +30,57 @@ public class CommandLineMenu implements CommandLineRunner{
     @Autowired
     ResponsavelRepository responsavelRepository;
 
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
     @Override
     public void run(String... args) throws Exception {
-        //Adiciona 3 de cada entidade pelo código:
+        //Adicionando 3 de cada entidade pelo código:
             //Responsavel:
             Responsavel resTiago = responsavelRepository.save(new Responsavel("Tiago"));
             Responsavel resHelena = responsavelRepository.save(new Responsavel("Dona Helena"));
             Responsavel resDomigos = responsavelRepository.save(new Responsavel("Seu Domingos"));
 
             //Canteiro:
-            canteiroRepository.save(new Canteiro(5.0 , resTiago));
-            canteiroRepository.save(new Canteiro(12.0 , resDomigos));
-            canteiroRepository.save(new Canteiro(8.0 , resHelena));
+            Canteiro canteiro1 = canteiroRepository.save(new Canteiro(5.0 , resTiago));
+            /*Canteiro canteiro1 = new Canteiro();
+            canteiro1.setArea(5.0); canteiro1.setResponsavel(resTiago);
+            canteiroRepository.save(canteiro1);
+            */
+
+            Canteiro canteiro2 = canteiroRepository.save(new Canteiro(12.0 , resDomigos));
+            Canteiro canteiro3 = canteiroRepository.save(new Canteiro(8.0 , resHelena));
 
             //Insumo:
-            insumoRepository.save(new Insumo("Estrume -> cocô de vaca."));
-            insumoRepository.save(new Insumo("Casca de ovo -> em pó, facilita a absorcao pelas plantas."));
-            insumoRepository.save(new Insumo("Cinzas -> ricas em minerais e nutrientes."));
+            Insumo insumo1 = insumoRepository.save(new Insumo("Estrume -> cocô de vaca."));
+            Insumo insumo2 = insumoRepository.save(new Insumo("Casca de ovo -> em pó, facilita a absorcao pelas plantas."));
+            Insumo insumo3 = insumoRepository.save(new Insumo("Cinzas -> ricas em minerais e nutrientes."));
 
             //Planta:
-            plantaRepository.save(new Planta("Alface", 75));
-            plantaRepository.save(new Planta("Abóbora", 105));
-            plantaRepository.save(new Planta("Batata Doce", 105));
+            Planta planta1 = plantaRepository.save(new Planta("Alface", 75));
+            Planta planta2 = plantaRepository.save(new Planta("Abóbora", 105));
+            Planta planta3 = plantaRepository.save(new Planta("Batata Doce", 105));
+
+        //Adicionando 3 de cada relacionamento:
+            //recuperando os canteiros:
+            canteiro1 = canteiroRepository.findById(canteiro1.getId()).get();
+            canteiro2 = canteiroRepository.findById(canteiro2.getId()).get();    
+            canteiro3 = canteiroRepository.findById(canteiro3.getId()).get();     
+        
+            //Plantado:
+            canteiro1.getPlantas().add(planta2);
+            canteiro2.getPlantas().add(planta3);
+            canteiro3.getPlantas().add(planta1);
+
+            //Aplicado:
+            canteiro1.getInsumos().add(insumo3);
+            canteiro2.getInsumos().add(insumo1);
+            canteiro3.getInsumos().add(insumo2);
+
+            //Salvando:
+            canteiroRepository.save(canteiro1);
+            canteiroRepository.save(canteiro2);
+            canteiroRepository.save(canteiro3);
 
         Scanner s = new Scanner(System.in);
         Integer r = 0;
@@ -62,8 +92,10 @@ public class CommandLineMenu implements CommandLineRunner{
                     "2 -> Insumo.\n" +
                     "3 -> Planta.\n" +
                     "4 -> Responsavel.\n" +
-                    "5 -> Plantado. (Planta_Canteiro)\n" +
-                    "6 -> Aplicado. (Insumo_Canteiro)\n" +
+                    "5 -> Criar relacionamento Plantado.\n" +
+                    "     (Planta_Canteiro)\n" +
+                    "6 -> Criar relacionamento Aplicado.\n" + 
+                    "     (Insumo_Canteiro)\n" +
                     "7 -> Nenhuma. (ENCERRAR PROGRAMA)");
 
             r = s.nextInt();
@@ -338,68 +370,44 @@ public class CommandLineMenu implements CommandLineRunner{
                     break;
             
                 case 5: //PLANTADO:
-                    System.out.println("PLANTADO:\n" +
-                    "Selecione a operacao: \n" +
-                    "1 -> Criar.\n" +
-                    "2 -> Deletar.\n" +
-                    "3 -> Nenhuma. (VOLTAR AO MENU ANTERIOR)");
+                    Integer canteiro_id, planta_id;
+                    System.out.println("Digite o id do canteiro: ");
+                    canteiro_id = s.nextInt();
+                    System.out.println("Digite o id da planta: ");
+                    planta_id = s.nextInt();
 
-                    Integer r6 = s.nextInt();
-                    s.nextLine();
+                    Canteiro c = canteiroRepository.findById(canteiro_id).get();
+                    Planta p = plantaRepository.findById(planta_id).get();
 
-                    while (r6 < 1 || r6 >3) {
-                        System.out.println("Resposta inválida, por favor digite novamente: ");
-                    }
+                    if (c != null && p != null) {
+                        c.getPlantas().add(p);
+                        canteiroRepository.save(c);
 
-                    switch (r6) {
-                        case 1:
-                            Integer canteiro_id, planta_id;
-                            System.out.println("Digite o id do canteiro: ");
-                            canteiro_id = s.nextInt();
-                            System.out.println("Digite o id da planta: ");
-                            planta_id = s.nextInt();
-
-                            Canteiro c = canteiroRepository.findById(canteiro_id).get();
-                            Planta p = plantaRepository.findById(planta_id).get();
-
-                            if (c != null && p != null) {
-                                c.getPlantas().add(p);
-                                canteiroRepository.save(c);
-
-                                System.out.println("Relação entre canteiro e planta foi criada.");
-                            } else {
-                                System.out.println("Canteiro e/ou planta não existem!");
-                            }
-
-                            break;
-                    
-                        case 2:
-                            Integer canteiro_idd, planta_idd;
-                            System.out.println("Digite o id do canteiro: ");
-                            canteiro_idd = s.nextInt();
-                            System.out.println("Digite o id da planta: ");
-                            planta_idd = s.nextInt();
-
-                            Canteiro cd = canteiroRepository.findById(canteiro_idd).get();
-                            Planta pd = plantaRepository.findById(planta_idd).get();
-
-                            if (cd != null && pd != null) {
-                                cd.getPlantas().remove(pd);
-                                pd.getCanteiros().remove(cd);
-                                canteiroRepository.save(cd);
-
-                                System.out.println("Relação entre canteiro e planta deletada/inexistente.");
-                            } else {
-                                System.out.println("Canteiro e/ou planta não existem!");
-                            }
-
-                            break;
+                        System.out.println("Relação entre canteiro e planta foi criada.");
+                    } else {
+                        System.out.println("Canteiro e/ou planta não existem!");
                     }
 
                     break;
-                    
+
                 case 6: //APLICADO:
-                    System.out.println("APLICADO:");
+                    Integer canteiro_id2, insumo_id;
+                    System.out.println("Digite o id do canteiro: ");
+                    canteiro_id2 = s.nextInt();
+                    System.out.println("Digite o id do insumo: ");
+                    insumo_id = s.nextInt();
+
+                    Canteiro c2 = canteiroRepository.findById(canteiro_id2).get();
+                    Insumo i = insumoRepository.findById(insumo_id).get();
+
+                    if (c2 != null && i != null) {
+                        c2.getInsumos().add(i);
+                        canteiroRepository.save(c2);
+
+                        System.out.println("Relação entre canteiro e insumo foi criada.");
+                    } else {
+                        System.out.println("Canteiro e/ou insumo não existem!");
+                    }
                     
                     break;
 

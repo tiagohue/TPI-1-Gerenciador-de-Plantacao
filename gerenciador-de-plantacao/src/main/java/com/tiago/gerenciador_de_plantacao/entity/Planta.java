@@ -20,7 +20,7 @@ public class Planta {
 
     private Integer periodo_colheita;
 
-    @ManyToMany(mappedBy = "plantas")
+    @ManyToMany(mappedBy = "plantas", fetch = FetchType.EAGER)
     Set<Canteiro> canteiros;
 
     public Planta(String nome, Integer periodo_colheita) {
