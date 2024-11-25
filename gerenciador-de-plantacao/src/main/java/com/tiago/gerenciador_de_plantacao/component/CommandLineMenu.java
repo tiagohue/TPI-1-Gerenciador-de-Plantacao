@@ -43,11 +43,6 @@ public class CommandLineMenu implements CommandLineRunner{
 
             //Canteiro:
             Canteiro canteiro1 = canteiroRepository.save(new Canteiro(5.0 , resTiago));
-            /*Canteiro canteiro1 = new Canteiro();
-            canteiro1.setArea(5.0); canteiro1.setResponsavel(resTiago);
-            canteiroRepository.save(canteiro1);
-            */
-
             Canteiro canteiro2 = canteiroRepository.save(new Canteiro(12.0 , resDomigos));
             Canteiro canteiro3 = canteiroRepository.save(new Canteiro(8.0 , resHelena));
 
